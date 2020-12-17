@@ -36,7 +36,7 @@ GO
 
 CREATE TABLE Customer
 (
-	CustomerID INT,
+	CustomerID INT IDENTITY,
 	CustomerName VARCHAR(50),
 	Address VARCHAR(100),
 	Tel VARCHAR(13),
@@ -81,7 +81,8 @@ INSERT INTO Category VALUES
 	('NotePad'),
 	('Laptop'),
 	('SmartPhone'),
-	('NotVerySmartPhone')
+	('NotVerySmartPhone'),
+	('Other')
 GO
 
 -- ProductID INT IDENTITY,
@@ -100,7 +101,66 @@ INSERT INTO Product VALUES
 	('Ipad 4', 'Unit',15000000,10,1,'Latest notepad',2),
 	('MSI GF63', 'Unit',18000000,8,1,'Average gaming laptop',3),
 	('Iphone X', 'Unit',18000000,3,1,'Second-Hand',4),
-	('Nokia 1110i', 'Unit',20000000,5,1,'Not very smart but hard',5)
+	('Nokia 1110i', 'Unit',20000000,5,1,'Not very smart but hard',5),
+	('May Tinh T450','Chiec',1000,5,1,'May nhap moi',1),
+	('Dien Thoai Nokia5670','Chiec',200,4,1,'Dien thoai dang hot',5),
+	('May in SamSung 450','Chiec',100,2,1,'May in dang e',6)
 GO
 
-SELECT * FROM Product 
+-- CustomerID INT,
+-- CustomerName VARCHAR(50),
+-- Address VARCHAR(100),
+-- Tel VARCHAR(13)
+
+INSERT INTO Customer VALUES
+	('Nguyen Van An','111 Nguyen Trai, Thanh Xuan, Ha Noi','0987654321'),
+	('Nguyen Thi B','Ha Nam','0895678345'),
+	('Nguyen Van C','Bac Ninh','0978768937'),
+	('Nguyen Thi D','Bac Giang','0986467682'),
+	('Nguyen Thi E','Ha Noi','065987653')
+GO
+
+-- OrderID INT,
+-- OrderDate datetime,
+-- CustomerID int,
+-- Status INT,
+INSERT INTO Orders VALUES
+	(123,'11/18/2009',1,2),
+	(124,'12/11/2011',2,1),
+	(125,'09/07/2020',4,3)
+GO
+
+-- OrderID INT,
+-- ProductID INT,
+-- Quantity INT,
+-- Price money
+INSERT INTO OrderDetails VALUES
+	(123,8,1,1100),
+	(123,9,2,199),
+	(123,10,1,120),
+	(124,6,1,14000000),
+	(125,1,1,62000000)
+GO
+
+--4
+SELECT Orders.OrderID,Customer.CustomerName FROM Orders
+	JOIN Customer ON Orders.CustomerID = Customer.CustomerID 
+	GROUP BY Orders.OrderID,Customer.CustomerName
+GO
+SELECT * FROM Product
+GO
+SELECT * FROM Orders
+	JOIN OrderDetails ON Orders.OrderID = OrderDetails.OrderID
+GO
+
+--5
+SELECT CustomerName FROM Customer ORDER BY CustomerName ASC
+SELECT ProductName,ProductCost FROM Product ORDER BY ProductCost DESC
+SELECT Customer.CustomerName,Orders.OrderID,Product.ProductName FROM Orders
+	JOIN Customer ON Orders.CustomerID = Customer.CustomerID
+	JOIN OrderDetails ON Orders.OrderID = OrderDetails.OrderID
+	JOIN Product ON OrderDetails.ProductID = Product.ProductID
+	WHERE Orders.CustomerID LIKE 1
+GO
+
+--6
